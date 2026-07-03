@@ -32,3 +32,9 @@ def product_rule_derivative(f_coeffs: list, g_coeffs: list) -> list:
 
     return derivative
     pass
+
+f = [1, 2]      # f(x) = 1 + 2x
+g = [3, 4]      # g(x) = 3 + 4x
+
+result = product_rule_derivative(f, g)
+print(result)

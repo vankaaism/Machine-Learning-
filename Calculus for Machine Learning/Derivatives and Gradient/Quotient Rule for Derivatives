@@ -1,0 +1,70 @@
+import numpy as np
+
+
+def evaluate_polynomial(coeffs, x):
+    # Menyimpan hasil perhitungan polinomial
+    value = 0.0
+
+    # Menentukan pangkat tertinggi
+    degree = len(coeffs) - 1
+
+    # Mengunjungi setiap koefisien
+    for i in range(len(coeffs)):
+
+        # Menghitung:
+        # koefisien × x^(pangkat)
+        value += coeffs[i] * (x ** (degree - i))
+
+    # Mengembalikan nilai polinomial pada titik x
+    return value
+
+
+def derivative_coefficients(coeffs):
+
+    # Pangkat tertinggi polinomial
+    degree = len(coeffs) - 1
+
+    # Menyimpan koefisien hasil turunan
+    derivative = []
+
+    # Tidak menghitung suku terakhir karena merupakan konstanta
+    for i in range(len(coeffs) - 1):
+
+        # Aturan turunan:
+        # c*x^n → c*n*x^(n-1)
+        #
+        # Yang disimpan hanya koefisien barunya,
+        # yaitu c × n
+        derivative.append(coeffs[i] * (degree - i))
+
+    # Jika tidak ada koefisien (misalnya polinomial hanya konstanta)
+    if not derivative:
+        return [0.0]
+
+    # Mengembalikan koefisien hasil turunan
+    return derivative
+
+
+def quotient_rule_derivative(g_coeffs, h_coeffs, x):
+
+    # Menghitung nilai g(x)
+    g = evaluate_polynomial(g_coeffs, x)
+
+    # Menghitung nilai h(x)
+    h = evaluate_polynomial(h_coeffs, x)
+
+    # Mencari koefisien turunan g(x)
+    g_prime_coeffs = derivative_coefficients(g_coeffs)
+
+    # Mencari koefisien turunan h(x)
+    h_prime_coeffs = derivative_coefficients(h_coeffs)
+
+    # Menghitung nilai g'(x)
+    g_prime = evaluate_polynomial(g_prime_coeffs, x)
+
+    # Menghitung nilai h'(x)
+    h_prime = evaluate_polynomial(h_prime_coeffs, x)
+
+    # Menerapkan Quotient Rule
+    # (g'h - gh') / h²
+    return (g_prime * h - g * h_prime) / (h ** 2)
